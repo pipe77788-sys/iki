@@ -1,0 +1,534 @@
+// ============ SKILL DEFINITIONS ============
+const SKILLS = {
+  fireball: {
+    name: 'Fireball',
+    icon: '🔥',
+    tiers: [
+      { dmg: 15, cost: 20, projectiles: 1, effects: ['extra dmg +25% per tier'] },
+      { dmg: 20, cost: 25, projectiles: 1, effects: ['extra dmg'] },
+      { dmg: 25, cost: 30, projectiles: 2, effects: ['split into 2'] },
+      { dmg: 30, cost: 35, projectiles: 2, effects: ['faster'] },
+      { dmg: 35, cost: 40, projectiles: 3, effects: ['3 projectiles'] }
+    ]
+  },
+  ice_spike: {
+    name: 'Ice Spike',
+    icon: '❄️',
+    tiers: [
+      { dmg: 12, cost: 15, projectiles: 1, effects: ['freeze enemy 0.5s'] },
+      { dmg: 15, cost: 18, projectiles: 1, effects: ['freeze 1s'] },
+      { dmg: 18, cost: 21, projectiles: 1, effects: ['freeze 1.5s'] },
+      { dmg: 21, cost: 24, projectiles: 2, effects: ['2 spikes'] },
+      { dmg: 24, cost: 27, projectiles: 2, effects: ['freeze 2s'] }
+    ]
+  },
+  lightning: {
+    name: 'Lightning',
+    icon: '⚡',
+    tiers: [
+      { dmg: 18, cost: 25, projectiles: 1, effects: ['chain to 1 enemy'] },
+      { dmg: 22, cost: 28, projectiles: 1, effects: ['chain to 2 enemies'] },
+      { dmg: 26, cost: 31, projectiles: 1, effects: ['chain to 3'] },
+      { dmg: 30, cost: 34, projectiles: 1, effects: ['+50% crit rate'] },
+      { dmg: 34, cost: 37, projectiles: 2, effects: ['2 bolts'] }
+    ]
+  },
+  health_boost: {
+    name: 'Health Boost',
+    icon: '❤️',
+    tiers: [
+      { dmg: 0, cost: 10, projectiles: 0, effects: ['+50 max HP'] },
+      { dmg: 0, cost: 12, projectiles: 0, effects: ['+100 max HP'] },
+      { dmg: 0, cost: 14, projectiles: 0, effects: ['+150 max HP'] },
+      { dmg: 0, cost: 16, projectiles: 0, effects: ['+200 max HP'] },
+      { dmg: 0, cost: 18, projectiles: 0, effects: ['+300 max HP'] }
+    ]
+  },
+  mana_pool: {
+    name: 'Mana Pool',
+    icon: '💜',
+    tiers: [
+      { dmg: 0, cost: 0, projectiles: 0, effects: ['+30 max MP'] },
+      { dmg: 0, cost: 0, projectiles: 0, effects: ['+60 max MP'] },
+      { dmg: 0, cost: 0, projectiles: 0, effects: ['+100 max MP'] },
+      { dmg: 0, cost: 0, projectiles: 0, effects: ['+150 max MP'] },
+      { dmg: 0, cost: 0, projectiles: 0, effects: ['+200 max MP'] }
+    ]
+  },
+  crit_strike: {
+    name: 'Crit Strike',
+    icon: '⚔️',
+    tiers: [
+      { dmg: 0, cost: 15, projectiles: 0, effects: ['+10% crit rate'] },
+      { dmg: 0, cost: 16, projectiles: 0, effects: ['+15% crit rate'] },
+      { dmg: 0, cost: 17, projectiles: 0, effects: ['+20% crit rate'] },
+      { dmg: 0, cost: 18, projectiles: 0, effects: ['+25% crit rate'] },
+      { dmg: 0, cost: 20, projectiles: 0, effects: ['+30% crit rate'] }
+    ]
+  },
+  crit_damage: {
+    name: 'Crit Damage',
+    icon: '💥',
+    tiers: [
+      { dmg: 0, cost: 10, projectiles: 0, effects: ['+30% crit dmg'] },
+      { dmg: 0, cost: 12, projectiles: 0, effects: ['+50% crit dmg'] },
+      { dmg: 0, cost: 14, projectiles: 0, effects: ['+70% crit dmg'] },
+      { dmg: 0, cost: 16, projectiles: 0, effects: ['+100% crit dmg'] },
+      { dmg: 0, cost: 18, projectiles: 0, effects: ['+150% crit dmg'] }
+    ]
+  },
+  spread_shot: {
+    name: 'Spread Shot',
+    icon: '🎯',
+    tiers: [
+      { dmg: 8, cost: 18, projectiles: 3, effects: ['3 projectiles'] },
+      { dmg: 10, cost: 20, projectiles: 4, effects: ['4 projectiles'] },
+      { dmg: 12, cost: 22, projectiles: 5, effects: ['5 projectiles'] },
+      { dmg: 14, cost: 24, projectiles: 6, effects: ['6 projectiles'] },
+      { dmg: 16, cost: 26, projectiles: 7, effects: ['7 projectiles'] }
+    ]
+  },
+  vampiric_strike: {
+    name: 'Vampiric Strike',
+    icon: '🧛',
+    tiers: [
+      { dmg: 12, cost: 20, projectiles: 1, effects: ['heal 30% dmg'] },
+      { dmg: 14, cost: 22, projectiles: 1, effects: ['heal 40% dmg'] },
+      { dmg: 16, cost: 24, projectiles: 1, effects: ['heal 50% dmg'] },
+      { dmg: 18, cost: 26, projectiles: 1, effects: ['heal 60% dmg'] },
+      { dmg: 20, cost: 28, projectiles: 1, effects: ['heal 70% dmg'] }
+    ]
+  },
+  meteor: {
+    name: 'Meteor',
+    icon: '☄️',
+    tiers: [
+      { dmg: 20, cost: 30, projectiles: 1, effects: ['AOE 40px radius'] },
+      { dmg: 25, cost: 33, projectiles: 1, effects: ['AOE 50px radius'] },
+      { dmg: 30, cost: 36, projectiles: 1, effects: ['AOE 60px radius'] },
+      { dmg: 35, cost: 39, projectiles: 1, effects: ['AOE 70px'] },
+      { dmg: 40, cost: 42, projectiles: 2, effects: ['2 meteors'] }
+    ]
+  }
+};
+
+const HEROES = {
+  warrior: {
+    name: 'Warrior',
+    color: '#d9534f',
+    hp: 150,
+    mp: 50,
+    dmg: 12,
+    critRate: 0.1,
+    critDamage: 1.5
+  },
+  mage: {
+    name: 'Mage',
+    color: '#5bc0de',
+    hp: 100,
+    mp: 120,
+    dmg: 8,
+    critRate: 0.15,
+    critDamage: 2.0
+  },
+  archer: {
+    name: 'Archer',
+    color: '#f0ad4e',
+    hp: 120,
+    mp: 70,
+    dmg: 10,
+    critRate: 0.2,
+    critDamage: 1.8
+  }
+};
+
+// ============ GAME ENGINE ============
+class Game {
+  constructor() {
+    this.canvas = document.getElementById('game');
+    this.ctx = this.canvas.getContext('2d');
+    this.state = 'start';
+    this.hero = null;
+    this.player = null;
+    this.particles = [];
+    this.enemies = [];
+    this.projectiles = [];
+    this.level = 1;
+    this.xp = 0;
+    this.xpToLevel = 100;
+    this.time = 0;
+    this.started = false;
+    
+    this.input = {
+      w: false, a: false, s: false, d: false,
+      up: false, left: false, down: false, right: false,
+      space: false
+    };
+    
+    this.setupInput();
+    this.setupUI();
+  }
+
+  setupInput() {
+    document.addEventListener('keydown', (e) => {
+      switch (e.key.toLowerCase()) {
+        case 'w': this.input.w = true; break;
+        case 'a': this.input.a = true; break;
+        case 's': this.input.s = true; break;
+        case 'd': this.input.d = true; break;
+        case ' ': this.input.space = true; e.preventDefault(); break;
+        case 'arrowup': this.input.up = true; break;
+        case 'arrowleft': this.input.left = true; break;
+        case 'arrowdown': this.input.down = true; break;
+        case 'arrowright': this.input.right = true; break;
+      }
+    });
+    document.addEventListener('keyup', (e) => {
+      switch (e.key.toLowerCase()) {
+        case 'w': this.input.w = false; break;
+        case 'a': this.input.a = false; break;
+        case 's': this.input.s = false; break;
+        case 'd': this.input.d = false; break;
+        case ' ': this.input.space = false; break;
+        case 'arrowup': this.input.up = false; break;
+        case 'arrowleft': this.input.left = false; break;
+        case 'arrowdown': this.input.down = false; break;
+        case 'arrowright': this.input.right = false; break;
+      }
+    });
+  }
+
+  setupUI() {
+    const btn = document.getElementById('hero-buttons');
+    for (const [key, hero] of Object.entries(HEROES)) {
+      const button = document.createElement('button');
+      button.textContent = hero.name;
+      button.onclick = () => this.startGame(key);
+      btn.appendChild(button);
+    }
+  }
+
+  startGame(heroKey) {
+    this.hero = { ...HEROES[heroKey], key: heroKey };
+    this.player = {
+      x: this.canvas.width / 2,
+      y: this.canvas.height / 2,
+      radius: 8,
+      hp: this.hero.hp,
+      maxHp: this.hero.hp,
+      mp: this.hero.mp,
+      maxMp: this.hero.mp,
+      dmg: this.hero.dmg,
+      critRate: this.hero.critRate,
+      critDamage: this.hero.critDamage,
+      vx: 0,
+      vy: 0,
+      speed: 4,
+      skills: {},
+      lastShot: 0
+    };
+
+    document.getElementById('start-screen').classList.add('hidden');
+    document.getElementById('hud').classList.remove('hidden');
+    this.state = 'playing';
+    this.started = true;
+    this.loop();
+  }
+
+  update(dt) {
+    if (this.state !== 'playing') return;
+
+    // Player movement
+    let vx = 0, vy = 0;
+    if (this.input.w || this.input.up) vy -= 1;
+    if (this.input.s || this.input.down) vy += 1;
+    if (this.input.a || this.input.left) vx -= 1;
+    if (this.input.d || this.input.right) vx += 1;
+    
+    const len = Math.sqrt(vx * vx + vy * vy);
+    if (len > 0) {
+      this.player.vx = (vx / len) * this.player.speed;
+      this.player.vy = (vy / len) * this.player.speed;
+    } else {
+      this.player.vx *= 0.8;
+      this.player.vy *= 0.8;
+    }
+
+    this.player.x += this.player.vx;
+    this.player.y += this.player.vy;
+
+    // Keep player in bounds
+    this.player.x = Math.max(this.player.radius, Math.min(this.canvas.width - this.player.radius, this.player.x));
+    this.player.y = Math.max(this.player.radius, Math.min(this.canvas.height - this.player.radius, this.player.y));
+
+    // Shooting
+    if (this.input.space && this.time - this.player.lastShot > 200) {
+      this.shoot();
+      this.player.lastShot = this.time;
+    }
+
+    // Spawn enemies
+    if (Math.random() < 0.02) {
+      const side = Math.floor(Math.random() * 4);
+      let x, y;
+      if (side === 0) x = Math.random() * this.canvas.width, y = -20;
+      else if (side === 1) x = this.canvas.width + 20, y = Math.random() * this.canvas.height;
+      else if (side === 2) x = Math.random() * this.canvas.width, y = this.canvas.height + 20;
+      else x = -20, y = Math.random() * this.canvas.height;
+
+      this.enemies.push({
+        x, y,
+        radius: 6,
+        hp: 20 + this.level * 5,
+        maxHp: 20 + this.level * 5,
+        dmg: 5 + this.level,
+        vx: 0, vy: 0, speed: 1 + this.level * 0.3
+      });
+    }
+
+    // Update enemies
+    for (let i = this.enemies.length - 1; i >= 0; i--) {
+      const e = this.enemies[i];
+      const dx = this.player.x - e.x;
+      const dy = this.player.y - e.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      
+      if (dist > 0) {
+        e.vx = (dx / dist) * e.speed;
+        e.vy = (dy / dist) * e.speed;
+      }
+
+      e.x += e.vx;
+      e.y += e.vy;
+
+      // Collision with player
+      const dd = this.player.radius + e.radius;
+      if (dist < dd) {
+        this.player.hp -= e.dmg;
+        if (this.player.hp <= 0) {
+          this.gameOver();
+        }
+      }
+
+      if (e.hp <= 0) {
+        this.enemies.splice(i, 1);
+        this.xp += 10 + this.level * 5;
+        if (this.xp >= this.xpToLevel) {
+          this.levelUp();
+        }
+      }
+    }
+
+    // Update projectiles
+    for (let i = this.projectiles.length - 1; i >= 0; i--) {
+      const p = this.projectiles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life--;
+
+      if (p.x < 0 || p.x > this.canvas.width || p.y < 0 || p.y > this.canvas.height || p.life <= 0) {
+        this.projectiles.splice(i, 1);
+        continue;
+      }
+
+      // Projectile vs enemy
+      for (let j = this.enemies.length - 1; j >= 0; j--) {
+        const e = this.enemies[j];
+        const dx = p.x - e.x;
+        const dy = p.y - e.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (dist < p.radius + e.radius) {
+          let dmg = p.dmg;
+          if (Math.random() < this.player.critRate) {
+            dmg *= this.player.critDamage;
+            this.addParticle(p.x, p.y, '💥');
+          }
+          e.hp -= dmg;
+          this.projectiles.splice(i, 1);
+          break;
+        }
+      }
+    }
+
+    this.updateUI();
+  }
+
+  shoot() {
+    // Default projectile if no skills
+    let count = 1;
+    let dmg = this.player.dmg;
+
+    // Check for spread shot skill
+    if (this.player.skills.spread_shot) {
+      count = SKILLS.spread_shot.tiers[this.player.skills.spread_shot - 1].projectiles;
+      dmg += 5;
+    }
+
+    const angleStep = Math.PI * 2 / count;
+    for (let i = 0; i < count; i++) {
+      const angle = angleStep * i;
+      this.projectiles.push({
+        x: this.player.x,
+        y: this.player.y,
+        vx: Math.cos(angle) * 6,
+        vy: Math.sin(angle) * 6,
+        radius: 4,
+        dmg: dmg,
+        life: 200
+      });
+    }
+  }
+
+  levelUp() {
+    this.level++;
+    this.xp = 0;
+    this.xpToLevel = 100 + this.level * 50;
+
+    // Show skill picker
+    this.state = 'levelup';
+    const choices = [];
+    const skillKeys = Object.keys(SKILLS);
+    for (let i = 0; i < 3; i++) {
+      choices.push(skillKeys[Math.floor(Math.random() * skillKeys.length)]);
+    }
+
+    const modal = document.getElementById('levelup-modal');
+    const container = document.getElementById('skill-choices');
+    container.innerHTML = '';
+
+    for (const skillKey of choices) {
+      const skill = SKILLS[skillKey];
+      const currentTier = this.player.skills[skillKey] || 0;
+      const nextTier = currentTier + 1;
+
+      if (nextTier <= skill.tiers.length) {
+        const btn = document.createElement('button');
+        btn.className = 'skill-btn';
+        const tierData = skill.tiers[nextTier - 1];
+        btn.innerHTML = `<strong>${skill.icon} ${skill.name}</strong><div class="skill-tier">Tier ${nextTier}/${skill.tiers.length}<br>${tierData.effects[0]}</div>`;
+        btn.onclick = () => this.pickSkill(skillKey);
+        container.appendChild(btn);
+      }
+    }
+
+    modal.classList.remove('hidden');
+  }
+
+  pickSkill(skillKey) {
+    const tier = (this.player.skills[skillKey] || 0) + 1;
+    this.player.skills[skillKey] = tier;
+    
+    // Apply stat bonuses
+    const skill = SKILLS[skillKey];
+    const tierData = skill.tiers[tier - 1];
+
+    if (skillKey === 'health_boost') {
+      const bonus = [50, 100, 150, 200, 300][tier - 1];
+      this.player.maxHp += bonus;
+      this.player.hp = this.player.maxHp;
+    }
+    if (skillKey === 'mana_pool') {
+      const bonus = [30, 60, 100, 150, 200][tier - 1];
+      this.player.maxMp += bonus;
+      this.player.mp = this.player.maxMp;
+    }
+    if (skillKey === 'crit_strike') {
+      const bonus = [0.1, 0.15, 0.2, 0.25, 0.3][tier - 1];
+      this.player.critRate += bonus;
+    }
+    if (skillKey === 'crit_damage') {
+      const bonus = [0.3, 0.5, 0.7, 1.0, 1.5][tier - 1];
+      this.player.critDamage += bonus;
+    }
+
+    document.getElementById('levelup-modal').classList.add('hidden');
+    this.state = 'playing';
+  }
+
+  addParticle(x, y, text) {
+    this.particles.push({
+      x, y, text,
+      life: 60,
+      vx: (Math.random() - 0.5) * 2,
+      vy: -2
+    });
+  }
+
+  updateUI() {
+    const stats = document.getElementById('stats');
+    const xpBar = Math.round((this.xp / this.xpToLevel) * 100);
+    stats.innerHTML = `
+      <div>❤️ ${Math.ceil(this.player.hp)}/${this.player.maxHp}</div>
+      <div>💜 ${Math.ceil(this.player.mp)}/${this.player.maxMp}</div>
+      <div>⚔️ ${Math.round(this.player.dmg)} | Crit: ${(this.player.critRate * 100).toFixed(0)}% | x${this.player.critDamage.toFixed(1)}</div>
+    `;
+    document.getElementById('levelxp').innerHTML = `
+      Lv ${this.level} | XP: ${xpBar}% | Enemies: ${this.enemies.length}
+    `;
+  }
+
+  gameOver() {
+    this.state = 'gameover';
+    alert(`Game Over! Level ${this.level} reached.\nXP earned: ${this.xp}`);
+    location.reload();
+  }
+
+  draw() {
+    this.ctx.fillStyle = '#071020';
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+    if (!this.started) return;
+
+    // Draw player
+    this.ctx.fillStyle = this.hero.color;
+    this.ctx.beginPath();
+    this.ctx.arc(this.player.x, this.player.y, this.player.radius, 0, Math.PI * 2);
+    this.ctx.fill();
+
+    // Draw bar
+    this.ctx.fillStyle = '#333';
+    this.ctx.fillRect(this.player.x - 15, this.player.y - 20, 30, 4);
+    this.ctx.fillStyle = '#f0ad4e';
+    this.ctx.fillRect(this.player.x - 15, this.player.y - 20, 30 * (this.player.hp / this.player.maxHp), 4);
+
+    // Draw enemies
+    for (const e of this.enemies) {
+      this.ctx.fillStyle = '#c0392b';
+      this.ctx.beginPath();
+      this.ctx.arc(e.x, e.y, e.radius, 0, Math.PI * 2);
+      this.ctx.fill();
+
+      this.ctx.fillStyle = '#333';
+      this.ctx.fillRect(e.x - 10, e.y - 15, 20, 3);
+      this.ctx.fillStyle = '#f0ad4e';
+      this.ctx.fillRect(e.x - 10, e.y - 15, 20 * (e.hp / e.maxHp), 3);
+    }
+
+    // Draw projectiles
+    for (const p of this.projectiles) {
+      this.ctx.fillStyle = '#f0ad4e';
+      this.ctx.beginPath();
+      this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      this.ctx.fill();
+    }
+
+    // Draw particles
+    for (const part of this.particles) {
+      this.ctx.font = '16px Arial';
+      this.ctx.fillText(part.text, part.x, part.y);
+    }
+    this.particles = this.particles.filter(p => p.life-- > 0).map(p => ({
+      ...p, x: p.x + p.vx, y: p.y + p.vy
+    }));
+  }
+
+  loop() {
+    this.update(16);
+    this.draw();
+    this.time += 16;
+    requestAnimationFrame(() => this.loop());
+  }
+}
+
+const game = new Game();
